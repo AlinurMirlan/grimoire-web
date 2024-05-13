@@ -1,0 +1,60 @@
+name: Continous Deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+env:
+  BUILD_FILES_FOLDER: dist/
+  BUILD_FILE_NAME: build-artifact.zip
+  BUILD_ARTIFACT_NAME: build-artifact
+  BUCKET_NAME: grimoire
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4.1.2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4.0.2
+
+      - name: Clean Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Zip Artifact for Deployment
+        run: zip ${{ env.BUILD_FILE_NAME }} ${{ env.BUILD_FILES_FOLDER }} -r
+
+      - name: Upload Artifact for Deployment Job
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
+          path: ${{ env.BUILD_FILE_NAME }}
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Download Artifact for Deployment Job
+        uses: actions/download-artifact@v4.1.4
+        with:
+          name: ${{ env.BUILD_ARTIFACT_NAME }}
+
+      - name: Unzip Artifact for Deployment Job
+        run: unzip ${{ env.BUILD_FILE_NAME }}
+
+      - name: Setup AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2
+
+      - name: Deploy to S3 Bucket
+        run: aws s3 sync ${{ env.BUILD_FILES_FOLDER }} s3://${{ env.BUCKET_NAME }} --delete
