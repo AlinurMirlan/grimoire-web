@@ -10,7 +10,7 @@ env:
   BUILD_FILES_FOLDER: dist/
   BUILD_FILE_NAME: build-artifact.zip
   BUILD_ARTIFACT_NAME: build-artifact
-  BUCKET_NAME: grimoire
+  BUCKET_NAME: grimoire-web-app-bucket
 
 jobs:
   build:
