@@ -1,0 +1,19 @@
+.ul-list-item {
+  display: flex;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  padding: 0.5rem 0;
+}
+
+.ul-item-left-side {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  text-align: left;
+  font-size: medium;
+}
+
+.filler {
+  flex-grow: 1;
+}
