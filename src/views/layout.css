@@ -1,0 +1,19 @@
+main {
+  font-family: Arial, Helvetica, sans-serif;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.ul-nav {
+  display: flex;
+  align-items: center;
+
+  font-size: 1.2rem;
+  gap: 2rem;
+  list-style: none;
+}
+
+.link-nav {
+  text-decoration: none;
+  color: #000;
+}

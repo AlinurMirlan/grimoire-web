@@ -1,0 +1,9 @@
+.ul-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.div-list {
+  padding: 0rem 2.5rem;
+}
