@@ -14,7 +14,11 @@ export function BookList() {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchBooks() {
-      const response = await httpClient.get("/books");
+      const response = await httpClient.get("/books", {
+        params: {
+          count: 100,
+        },
+      });
       if (response.status != 200) {
         console.error("Unexpected status code", response.status);
         return;

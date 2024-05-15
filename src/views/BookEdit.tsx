@@ -31,7 +31,7 @@ export function BookEdit() {
     }
 
     async function fetchBook() {
-      const response = await httpClient.get(`/books/${bookIsbnParam}`);
+      const response = await httpClient.get(`/book/${bookIsbnParam}`);
       if (response.status != 200) {
         console.error("Unexpected status code", response.status);
         return;
@@ -56,7 +56,7 @@ export function BookEdit() {
   } = useForm<Book>();
 
   async function onEdit(editedBook: Book) {
-    const response = await httpClient.post("/books", editedBook);
+    const response = await httpClient.put("/book/edit", editedBook);
     if (response.status != 201) {
       console.error("Unexpected status code", response.status);
       return;
@@ -66,7 +66,7 @@ export function BookEdit() {
   }
 
   async function onDelete() {
-    const response = await httpClient.delete(`/books/${book.isbn}`);
+    const response = await httpClient.delete(`/book/delete/${book.isbn}`);
     if (response.status != 204) {
       console.error("Unexpected status code", response.status);
       return;
