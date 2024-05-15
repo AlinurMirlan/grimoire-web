@@ -67,7 +67,7 @@ export function BookEdit() {
 
   async function onDelete() {
     const response = await httpClient.delete(`/books/${book.isbn}`);
-    if (response.status != 200) {
+    if (response.status != 204) {
       console.error("Unexpected status code", response.status);
       return;
     }
