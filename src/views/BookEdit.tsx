@@ -6,7 +6,9 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { RootState } from "../data/store";
-import "../components/bookAdd.css";
+import { IconEdit } from "../assets/icons/IconEdit";
+import { ButtonIcon } from "../components/ButtonIcon";
+import { IconDelete } from "../assets/icons/IconDelete";
 
 export function BookEdit() {
   const { isbn: bookIsbnParam } = useParams();
@@ -29,7 +31,7 @@ export function BookEdit() {
     }
 
     async function fetchBook() {
-      const response = await httpClient.get(`/book/${bookIsbnParam}`);
+      const response = await httpClient.get(`/books/${bookIsbnParam}`);
       if (response.status != 200) {
         console.error("Unexpected status code", response.status);
         return;
@@ -54,7 +56,7 @@ export function BookEdit() {
   } = useForm<Book>();
 
   async function onEdit(editedBook: Book) {
-    const response = await httpClient.post("/save/book", editedBook);
+    const response = await httpClient.post("/books", editedBook);
     if (response.status != 201) {
       console.error("Unexpected status code", response.status);
       return;
@@ -64,8 +66,8 @@ export function BookEdit() {
   }
 
   async function onDelete() {
-    const response = await httpClient.delete(`/delete/book/${book.isbn}`);
-    if (response.status != 204) {
+    const response = await httpClient.delete(`/books/${book.isbn}`);
+    if (response.status != 200) {
       console.error("Unexpected status code", response.status);
       return;
     }
@@ -97,25 +99,32 @@ export function BookEdit() {
           />
         </div>
         <div>
-          <label htmlFor="description" className="label-add">
+          <label htmlFor="description" className="input_form_label">
             Description
           </label>
           <textarea
             id="description"
-            className="text-area-add"
+            className="input_form_input"
             defaultValue={book.description}
             {...register("description", {
               required: "Description is required",
             })}
           />
         </div>
-        <div>
-          <button className="button" type="submit">
-            Edit
-          </button>
-          <button className="button" onClick={onDelete} type="button">
-            Delete
-          </button>
+        <div className="common_button_group">
+          <ButtonIcon
+            Icon={IconEdit}
+            title="Edit"
+            className="common_button"
+            type="submit"
+          />
+          <ButtonIcon
+            Icon={IconDelete}
+            title="Delete"
+            className="common_button_danger"
+            type="button"
+            onClick={onDelete}
+          />
         </div>
       </form>
       {bookEdited && <p>Book edited</p>}

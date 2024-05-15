@@ -1,7 +1,7 @@
 import { ComponentPropsWithRef } from "react";
-import { IconEdit } from "../assets/IconEdit";
+import { IconEdit } from "../assets/icons/IconEdit";
 import { Book } from "../types";
-import "./bookItem.css";
+import "../assets/styles/bookItem.css";
 
 type Props = {
   book: Book;
@@ -11,15 +11,15 @@ type Props = {
 export function BookItem({ book, onBookItemClick, ...buttonProps }: Props) {
   return (
     <button
-      className="ul-list-item"
+      className="book_item"
       {...buttonProps}
       onClick={() => onBookItemClick(book)}
     >
-      <div className="ul-item-left-side">
+      <div className="book_item_left">
         <div className="">{book.title}</div>
         <div className="">{book.description}</div>
       </div>
-      <div className="filler"></div>
+      <div className="book_item_filler_in_between"></div>
       <div className="">
         <IconEdit />
       </div>

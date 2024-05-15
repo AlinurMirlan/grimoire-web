@@ -1,0 +1,16 @@
+.input_form_label {
+  display: block;
+}
+
+.input_form_input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 0.2rem;
+  margin-top: 0.4rem;
+  border-radius: 3px;
+  border-width: 1px;
+}
+
+.input_form {
+  margin-bottom: 0.7rem;
+}
