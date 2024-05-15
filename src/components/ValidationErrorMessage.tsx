@@ -1,15 +1,14 @@
 import { FieldError } from "react-hook-form";
+import "../assets/styles/validationErrorMessage.css";
 
 interface Props {
   error: FieldError | undefined;
 }
 
 export function ValidationErrorMessage({ error }: Props) {
-  let visibility = "";
   let errorMessage = "";
   if (error?.message) {
-    visibility = "";
     errorMessage = error.message;
   }
-  return <span className={`${visibility}`}>{errorMessage}</span>;
+  return <span className="validation_error_message">{errorMessage}</span>;
 }

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { httpClient } from "../services/httpClient";
-import { Book, isBook } from "../types";
+import { Book, isBook, isPagedResults } from "../types";
 import { useDispatch } from "react-redux";
 import { BookItem } from "../components/BookItem";
 import { setCurrentBook } from "../data/bookStoreSlice";
 import { useNavigate } from "react-router-dom";
-import "./bookList.css";
+import "../assets/styles/bookList.css";
+import "../assets/styles/common.css";
 
 export function BookList() {
   const [books, setBooks] = useState<Book[]>([]);
@@ -13,16 +14,27 @@ export function BookList() {
   const navigate = useNavigate();
   useEffect(() => {
     async function fetchBooks() {
-      const response = await httpClient.get("/books");
+      const response = await httpClient.get("/books", {
+        params: {
+          count: 100,
+        },
+      });
       if (response.status != 200) {
         console.error("Unexpected status code", response.status);
         return;
       }
 
-      if (Array.isArray(response.data) && response.data.every(isBook)) {
-        setBooks(response.data);
-      } else {
+      const pagedResults: unknown = response.data;
+      if (!isPagedResults<Book>(pagedResults)) {
         console.error("Unexpected response", response.data);
+        return;
+      }
+
+      const items = pagedResults.items;
+      if (items.every(isBook)) {
+        setBooks(items);
+      } else {
+        console.error("Unexpected response", items);
       }
     }
 
@@ -35,12 +47,10 @@ export function BookList() {
   }
 
   return (
-    <div className="div-list">
-      <h1>Book List</h1>
-      <ul className="ul-list">
+    <div className="">
+      <ul className="book_list">
         {books.map((book) => (
           <BookItem
-            className="ul-list-item"
             book={book}
             key={book.isbn}
             onBookItemClick={onBookItemClick}

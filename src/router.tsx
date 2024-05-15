@@ -1,6 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { BookList } from "./views/BookList";
-import { BookAdd } from "./components/BookAdd";
+import { BookAdd } from "./views/BookAdd";
 import { BookEdit } from "./views/BookEdit";
 import { Layout } from "./views/Layout";
 

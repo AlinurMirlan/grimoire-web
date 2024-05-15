@@ -1,7 +1,7 @@
 import { ComponentPropsWithRef, forwardRef } from "react";
 import { FieldError } from "react-hook-form";
 import { ValidationErrorMessage } from "./ValidationErrorMessage";
-import "./inputForm.css";
+import "../assets/styles/inputForm.css";
 
 type Props = {
   label: string;
@@ -15,9 +15,9 @@ export const InputForm = forwardRef<HTMLInputElement, Props>(function FormInput(
   ref
 ) {
   return (
-    <div className="input-form">
-      <label className="label-form">{label}</label>
-      <input className="item-input" {...inputProps} ref={ref} id={id} />
+    <div className="input_form">
+      <label className="input_form_label">{label}</label>
+      <input className="input_form_input" {...inputProps} ref={ref} id={id} />
       {displayError ? <ValidationErrorMessage error={error} /> : null}
     </div>
   );

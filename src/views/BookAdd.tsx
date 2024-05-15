@@ -1,10 +1,12 @@
 import { useForm } from "react-hook-form";
-import { InputForm } from "./InputForm";
+import { InputForm } from "../components/InputForm";
 import { Book } from "../types";
 import { httpClient } from "../services/httpClient";
 import { useState } from "react";
-import "./bookAdd.css";
-import "../assets/common.css";
+import "../assets/styles/common.css";
+import "../assets/styles/inputForm.css";
+import { ButtonIcon } from "../components/ButtonIcon";
+import { IconAdd } from "../assets/icons/IconAdd";
 
 export function BookAdd() {
   const [bookSaved, setBookSaved] = useState<boolean>(false);
@@ -16,14 +18,13 @@ export function BookAdd() {
   } = useForm<Book>();
 
   async function onSubmit(book: Book) {
-    let response = await httpClient.get(`/books/${book.isbn}`);
-    if (response.status == 200) {
+    const response = await httpClient.post("/books", book);
+    if (response.status == 409) {
       setBookExists(true);
       setBookSaved(false);
       return;
     }
 
-    response = await httpClient.post("/books", book);
     if (response.status != 201) {
       console.error("Unexpected status code", response.status);
       return;
@@ -36,7 +37,7 @@ export function BookAdd() {
   return (
     <div>
       <form noValidate onSubmit={handleSubmit(onSubmit)}>
-        <div>
+        <div className="">
           <InputForm
             type="text"
             id="isbn"
@@ -58,20 +59,23 @@ export function BookAdd() {
           />
         </div>
         <div>
-          <label htmlFor="description" className="label-add">
+          <label htmlFor="description" className="input_form_label">
             Description
           </label>
           <textarea
-            className="text-area-add"
+            className="input_form_input"
             id="description"
             {...register("description", {
               required: "Description is required",
             })}
           />
         </div>
-        <button className="button" type="submit">
-          Add
-        </button>
+        <ButtonIcon
+          Icon={IconAdd}
+          title="Add"
+          className="common_button_success"
+          type="submit"
+        />
       </form>
       {bookSaved && <p>Book added</p>}
       {bookExists && <p>Book already exists</p>}
