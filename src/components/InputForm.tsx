@@ -8,7 +8,7 @@ type Props = {
   id: string;
   error?: FieldError | undefined;
   displayError?: boolean;
-} & (ComponentPropsWithRef<"input"> | ComponentPropsWithRef<"textarea">);
+} & ComponentPropsWithRef<"input">;
 
 export const InputForm = forwardRef<HTMLInputElement, Props>(function FormInput(
   { label, id, error, displayError = true, ...inputProps },
