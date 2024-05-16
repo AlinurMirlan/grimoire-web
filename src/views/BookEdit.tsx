@@ -9,6 +9,8 @@ import { RootState } from "../data/store";
 import { IconEdit } from "../assets/icons/IconEdit";
 import { ButtonIcon } from "../components/ButtonIcon";
 import { IconDelete } from "../assets/icons/IconDelete";
+import "../assets/styles/inputForm.css";
+import "../assets/styles/common.css";
 
 export function BookEdit() {
   const { isbn: bookIsbnParam } = useParams();
@@ -57,7 +59,7 @@ export function BookEdit() {
 
   async function onEdit(editedBook: Book) {
     const response = await httpClient.put("/book/edit", editedBook);
-    if (response.status != 201) {
+    if (response.status != 200) {
       console.error("Unexpected status code", response.status);
       return;
     }
@@ -85,7 +87,7 @@ export function BookEdit() {
             label="ISBN"
             error={errors.isbn}
             defaultValue={book.isbn}
-            disabled
+            {...register("isbn")}
           />
         </div>
         <div>
@@ -104,7 +106,7 @@ export function BookEdit() {
           </label>
           <textarea
             id="description"
-            className="input_form_input"
+            className="input_form_input common_text_area"
             defaultValue={book.description}
             {...register("description", {
               required: "Description is required",
@@ -127,7 +129,9 @@ export function BookEdit() {
           />
         </div>
       </form>
-      {bookEdited && <p>Book edited</p>}
+      {bookEdited && (
+        <p className="common_message_success">Book has been edited</p>
+      )}
     </div>
   );
 }
