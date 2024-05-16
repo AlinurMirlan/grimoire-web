@@ -1,6 +1,7 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import "../assets/styles/layout.css";
 import { IconBook } from "../assets/icons/IconBook";
+import { LayoutNavLink } from "../components/LayoutNavLink";
 import { IconAdd } from "../assets/icons/IconAdd";
 
 export function Layout() {
@@ -8,14 +9,14 @@ export function Layout() {
     <main>
       <nav>
         <ul className="layout_nav">
-          <Link to="/" className="layout_nav_a">
+          <LayoutNavLink to="/">
             <IconBook />
             Book List
-          </Link>
-          <Link to="/book/add" className="layout_nav_a">
+          </LayoutNavLink>
+          <LayoutNavLink to="/book/add">
             <IconAdd />
             Add Book
-          </Link>
+          </LayoutNavLink>
         </ul>
       </nav>
       <Outlet />

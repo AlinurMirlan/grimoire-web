@@ -3,10 +3,10 @@ import { InputForm } from "../components/InputForm";
 import { Book } from "../types";
 import { httpClient } from "../services/httpClient";
 import { useState } from "react";
-import "../assets/styles/common.css";
-import "../assets/styles/inputForm.css";
 import { ButtonIcon } from "../components/ButtonIcon";
 import { IconAdd } from "../assets/icons/IconAdd";
+import "../assets/styles/common.css";
+import "../assets/styles/inputForm.css";
 
 export function BookAdd() {
   const [bookSaved, setBookSaved] = useState<boolean>(false);
@@ -18,7 +18,7 @@ export function BookAdd() {
   } = useForm<Book>();
 
   async function onSubmit(book: Book) {
-    const response = await httpClient.post("/books", book);
+    const response = await httpClient.post("/book/add", book);
     if (response.status == 409) {
       setBookExists(true);
       setBookSaved(false);
@@ -63,7 +63,7 @@ export function BookAdd() {
             Description
           </label>
           <textarea
-            className="input_form_input"
+            className="input_form_input common_text_area"
             id="description"
             {...register("description", {
               required: "Description is required",
@@ -77,8 +77,12 @@ export function BookAdd() {
           type="submit"
         />
       </form>
-      {bookSaved && <p>Book added</p>}
-      {bookExists && <p>Book already exists</p>}
+      {bookSaved && (
+        <p className="common_message_success">Book has been added</p>
+      )}
+      {bookExists && (
+        <p className="common_message_danger">Book already exists</p>
+      )}
     </div>
   );
 }

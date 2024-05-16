@@ -11,6 +11,10 @@
   border-width: 1px;
 }
 
+.input_form_input:focus {
+  outline: none;
+}
+
 .input_form {
   margin-bottom: 0.7rem;
 }

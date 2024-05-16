@@ -2,7 +2,7 @@
   background-color: transparent;
   border-width: 1px;
   border-color: black;
-  padding: 10px 18px;
+  padding: 8px 14px;
   border-radius: 5px;
   text-align: center;
   text-decoration: none;
@@ -14,8 +14,8 @@
 
 .common_button_success {
   border-width: 1px;
-  background-color: lightgreen;
-  padding: 10px 18px;
+  background-color: #c9ffd8;
+  padding: 8px 14px;
   border-radius: 5px;
   text-align: center;
   text-decoration: none;
@@ -27,8 +27,8 @@
 
 .common_button_danger {
   border-width: 1px;
-  background-color: lightpink;
-  padding: 10px 18px;
+  background-color: #fcdcdc;
+  padding: 8px 14px;
   border-radius: 5px;
   text-align: center;
   text-decoration: none;
@@ -41,4 +41,18 @@
 .common_button_group {
   display: flex;
   gap: 10px;
+}
+
+.common_text_area {
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.common_message_success {
+  font-size: small;
+  color: green;
+}
+
+.common_message_danger {
+  font-size: small;
+  color: red;
 }
