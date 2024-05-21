@@ -75,11 +75,10 @@ export function BookEdit() {
             type="text"
             id="isbn"
             label="ISBN"
-            className="input_form_input_disabled"
             error={errors.isbn}
             defaultValue={book.isbn}
-            disabled
             {...register("isbn")}
+            disabled
           />
         </div>
         <div>
