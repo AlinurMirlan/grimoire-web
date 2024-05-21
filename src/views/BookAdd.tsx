@@ -18,7 +18,7 @@ export function BookAdd() {
   } = useForm<Book>();
 
   async function onSubmit(book: Book) {
-    const response = await httpClient.post("/book/add", book);
+    const response = await httpClient.post("/books", book);
     if (response.status == 409) {
       setBookExists(true);
       setBookSaved(false);

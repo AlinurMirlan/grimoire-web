@@ -4,8 +4,6 @@ import { Book, isBook } from "../types";
 import { httpClient } from "../services/httpClient";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
-import { RootState } from "../data/store";
 import { IconEdit } from "../assets/icons/IconEdit";
 import { ButtonIcon } from "../components/ButtonIcon";
 import { IconDelete } from "../assets/icons/IconDelete";
@@ -15,25 +13,16 @@ import "../assets/styles/common.css";
 export function BookEdit() {
   const { isbn: bookIsbnParam } = useParams();
   const navigate = useNavigate();
-  const currentBook = useSelector(
-    (state: RootState) => state.bookStore.currentBook
-  );
 
-  const [book, setBook] = useState<Book>(
-    currentBook ?? {
-      isbn: "",
-      title: "",
-      description: "",
-    }
-  );
+  const [book, setBook] = useState<Book>({
+    isbn: "",
+    title: "",
+    description: "",
+  });
 
   useEffect(() => {
-    if (book.isbn === bookIsbnParam) {
-      return;
-    }
-
     async function fetchBook() {
-      const response = await httpClient.get(`/book/${bookIsbnParam}`);
+      const response = await httpClient.get(`/books/${bookIsbnParam}`);
       if (response.status != 200) {
         console.error("Unexpected status code", response.status);
         return;
@@ -48,7 +37,7 @@ export function BookEdit() {
     }
 
     fetchBook().catch(console.error);
-  }, [bookIsbnParam, book.isbn]);
+  }, [bookIsbnParam]);
 
   const [bookEdited, setBookEdited] = useState<boolean>(false);
   const {
@@ -58,7 +47,8 @@ export function BookEdit() {
   } = useForm<Book>();
 
   async function onEdit(editedBook: Book) {
-    const response = await httpClient.put("/book/edit", editedBook);
+    editedBook.isbn = book.isbn;
+    const response = await httpClient.put(`/books/${book.isbn}`, editedBook);
     if (response.status != 200) {
       console.error("Unexpected status code", response.status);
       return;
@@ -68,7 +58,7 @@ export function BookEdit() {
   }
 
   async function onDelete() {
-    const response = await httpClient.delete(`/book/delete/${book.isbn}`);
+    const response = await httpClient.delete(`/books/${book.isbn}`);
     if (response.status != 204) {
       console.error("Unexpected status code", response.status);
       return;
@@ -88,6 +78,7 @@ export function BookEdit() {
             error={errors.isbn}
             defaultValue={book.isbn}
             {...register("isbn")}
+            disabled
           />
         </div>
         <div>
